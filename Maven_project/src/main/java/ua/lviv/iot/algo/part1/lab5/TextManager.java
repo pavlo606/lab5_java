@@ -3,31 +3,46 @@ package ua.lviv.iot.algo.part1.lab5;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class TextManager {
-    String text;
-    int len;
+    private String text;
 
     public List<String> getWordsStartsWithVowel() {
         List<String> result = new ArrayList<>();
 
-        RegularExpression expression = new RegularExpression("(?<!\\w)[ieaouIEAOU]\\w+");
-        result = expression.getMatches(text);
+        Pattern expression = Pattern.compile("(?<!\\w)[ieaouIEAOU]\\w+");
+        Matcher matcher = expression.matcher(text);
 
-        return result; 
+        while (matcher.find()) {
+            result.add(text.substring(matcher.start(), matcher.end()));
+        }
+
+        return result;
     }
 
     public List<String> sortWords() {
-        List<String> result = new ArrayList<>();
         List<String> words = getWordsStartsWithVowel();
-        
-        result = words.stream()
-                       .sorted(Comparator.comparing(word -> new Word(word).getConsonantLetters()))
-                       .toList();
 
-        return result;
+        return words.stream()
+                       .sorted(Comparator.comparing(word -> getConsonantLetters(word)))
+                       .toList();
+    }
+
+    public String getConsonantLetters(final String word) {
+        List<String> result = new ArrayList<>();
+
+        Pattern pattern = Pattern.compile("[^ieaouIEAOU]");
+        Matcher matcher = pattern.matcher(word);
+
+        while (matcher.find()) {
+            result.add(word.substring(matcher.start(), matcher.end()));
+        }
+
+        return String.join("", result);
     }
 }

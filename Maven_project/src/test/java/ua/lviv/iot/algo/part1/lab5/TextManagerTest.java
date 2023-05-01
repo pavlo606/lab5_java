@@ -14,8 +14,8 @@ public class TextManagerTest {
 
     @BeforeEach
     public void setUp() {
-        inputString = "apple banana yellow event orange android";
-        text = new TextManager(inputString, 5);
+        inputString = "apple banana yellow event orange android house car old oldspice";
+        text = new TextManager(inputString);
     }
 
     @Test
@@ -25,6 +25,9 @@ public class TextManagerTest {
         expected.add("event");
         expected.add("orange");
         expected.add("android");
+        expected.add("old");
+        expected.add("oldspice");
+        
 
         assertEquals(expected, text.getWordsStartsWithVowel());
     }
@@ -32,11 +35,21 @@ public class TextManagerTest {
     @Test
     public void sortWordsTest() {
         List<String> expected = new ArrayList<>();
+        expected.add("old");
+        expected.add("oldspice");
         expected.add("android");
         expected.add("apple");
         expected.add("orange");
         expected.add("event");
 
         assertEquals(expected, text.sortWords());
+    }
+
+    @Test
+    public void getConsonantLettersTest() {
+        String str = "apple";
+        String expected = "ppl";
+
+        assertEquals(expected, text.getConsonantLetters(str));
     }
 }

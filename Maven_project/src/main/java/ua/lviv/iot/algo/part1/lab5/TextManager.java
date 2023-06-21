@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 
@@ -30,7 +31,7 @@ public class TextManager {
 
         return words.stream()
                        .sorted(Comparator.comparing(word -> getConsonantLetters(word)))
-                       .toList();
+                       .collect(Collectors.toList());
     }
 
     public String getConsonantLetters(final String word) {
